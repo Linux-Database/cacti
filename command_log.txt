@@ -4,3 +4,8 @@ yum -y install mariadb-server
 vi /etc/my.cnf
 
 systemctl start mariadb
+
+mysql_secure_installation 
+
+mysql -u root -p     
+
