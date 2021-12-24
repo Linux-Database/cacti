@@ -561,5 +561,15 @@ ALTER DATABASE cacti CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 チェックマークを入れてインストールボタンを押すとインストールが開始される
 
 ![setup11](https://raw.githubusercontent.com/Linux-Database/image/main/setup11.jpg)
-インストールできた様子　始めるを押すとコンソールページに移動される。
+インストールできた様子　始めるを押すとコンソールページに移動できる。
 
+![toppage](https://raw.githubusercontent.com/Linux-Database/image/main/toppage.jpg)
+正常にインストールできると、このような画面が表示される。
+
+![graph](https://raw.githubusercontent.com/Linux-Database/image/main/graph.jpg)
+グラフページを表示すると、このようにグラフが表示される。
+
+
+
+
+# 今回は、トラヒック量を表示できるようにする。
