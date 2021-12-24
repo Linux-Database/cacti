@@ -177,7 +177,7 @@ installation should now be secure.
 Thanks for using MariaDB!
 ```
 
-# インストールできたか確認
+## インストールできたか確認
 
 ```
 $ rpm -qa | grep mariadb 
@@ -195,7 +195,95 @@ mariadb-server-10.2.38-1.amzn2.0.1.x86_64
 mariadb-config-10.2.38-1.amzn2.0.1.x86_64
 ```
 
-# cacti を yum でインストールする
+## net-snmpの設定
+
+```
+$ vi /etc/snmp/snmpd.conf
+####
+# First, map the community name "public" into a "security name
+#       sec.name  source          community
+- com2sec notConfigUser  default       public
++ com2sec mynetwork  localhost      nakayumc
++ com2sec mynetwork  172.31.32.0/20 nakayumc
+
+####
+# Second, map the security name into a group name:
+
+#       groupName      securityModel securityName
+- group   notConfigGroup v1           notConfigUser
+- group   notConfigGroup v2c           notConfigUser
++ group   mynetwork_group v1            mynetwork
++ group   mynetwork_group v2c           mynetwork
+
+####
+# Third, create a view for us to let the group have rights to:
+
+# Make at least  snmpwalk -v 1 localhost -c public system fast again.
+#       name           incl/excl     subtree         mask(optional)
+view    systemview    included   .1.3.6.1.2.1.1
+view    systemview    included   .1.3.6.1.2.1.25.1.1
++ view    all_view      included   .1
+
+- access  notConfigGroup ""      any       noauth    exact  systemview none none
++ access  mynetwork_group ""      any       noauth    exact  systemview none none
++ access  mynetwork_group ""      any       noauth    exact  all_view none none
+
+```
+
+## net-snmp 再起動
+
+```
+$ systemctl restart snmpd
+```
+
+## snmpwalk コマンドで動作確認
+
+```
+$ snmpwalk -v 2c -c nakayumc 172.31.46.85
+
+SNMPv2-MIB::sysDescr.0 = STRING: Linux ip-172-31-46-85.ap-northeast-1.compute.internal 4.14.256-197.484.amzn2.x86_64 #1 SMP Tue Nov 30 00:17:50 UTC 2021 x86_64
+SNMPv2-MIB::sysObjectID.0 = OID: NET-SNMP-MIB::netSnmpAgentOIDs.10
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (27012) 0:04:30.12
+SNMPv2-MIB::sysContact.0 = STRING: Root <root@localhost> (configure /etc/snmp/snmp.local.conf)
+SNMPv2-MIB::sysName.0 = STRING: ip-172-31-46-85.ap-northeast-1.compute.internal
+SNMPv2-MIB::sysLocation.0 = STRING: Unknown (edit /etc/snmp/snmpd.conf)
+SNMPv2-MIB::sysORLastChange.0 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORID.1 = OID: SNMP-MPD-MIB::snmpMPDCompliance
+SNMPv2-MIB::sysORID.2 = OID: SNMP-USER-BASED-SM-MIB::usmMIBCompliance
+SNMPv2-MIB::sysORID.3 = OID: SNMP-FRAMEWORK-MIB::snmpFrameworkMIBCompliance
+SNMPv2-MIB::sysORID.4 = OID: SNMPv2-MIB::snmpMIB
+SNMPv2-MIB::sysORID.5 = OID: TCP-MIB::tcpMIB
+SNMPv2-MIB::sysORID.6 = OID: IP-MIB::ip
+SNMPv2-MIB::sysORID.7 = OID: UDP-MIB::udpMIB
+SNMPv2-MIB::sysORID.8 = OID: SNMP-VIEW-BASED-ACM-MIB::vacmBasicGroup
+SNMPv2-MIB::sysORID.9 = OID: SNMP-NOTIFICATION-MIB::snmpNotifyFullCompliance
+SNMPv2-MIB::sysORID.10 = OID: NOTIFICATION-LOG-MIB::notificationLogMIB
+SNMPv2-MIB::sysORDescr.1 = STRING: The MIB for Message Processing and Dispatching.
+SNMPv2-MIB::sysORDescr.2 = STRING: The management information definitions for the SNMP User-based Security Model.
+SNMPv2-MIB::sysORDescr.3 = STRING: The SNMP Management Architecture MIB.
+SNMPv2-MIB::sysORDescr.4 = STRING: The MIB module for SNMPv2 entities
+SNMPv2-MIB::sysORDescr.5 = STRING: The MIB module for managing TCP implementations
+SNMPv2-MIB::sysORDescr.6 = STRING: The MIB module for managing IP and ICMP implementations
+SNMPv2-MIB::sysORDescr.7 = STRING: The MIB module for managing UDP implementations
+SNMPv2-MIB::sysORDescr.8 = STRING: View-based Access Control Model for SNMP.
+SNMPv2-MIB::sysORDescr.9 = STRING: The MIB modules for managing SNMP Notification, plus filtering.
+SNMPv2-MIB::sysORDescr.10 = STRING: The MIB module for logging SNMP Notifications.
+SNMPv2-MIB::sysORUpTime.1 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.2 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.3 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.4 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.5 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.6 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.7 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.8 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.9 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.10 = Timeticks: (4) 0:00:00.04
+HOST-RESOURCES-MIB::hrSystemUptime.0 = Timeticks: (2699433) 7:29:54.33
+HOST-RESOURCES-MIB::hrSystemUptime.0 = No more variables left in this MIB View (It is past the end of the MIB tree)
+```
+
+## cacti を yum でインストールする
+
 ```
 $ yum install cacti
 
@@ -248,12 +336,14 @@ Installing for dependencies:
 ```
 
 ## cacti ユーザ作成 
+
 ```
 $ mysql -u root -p
 CREATE USER 'cacti'@'localhost' IDENTIFIED BY 'Cnetuser';
 ```
 
 ## cacti DB作成
+
 ```
 $ CREATE DATABASE cacti;
 
