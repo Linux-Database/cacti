@@ -1,3 +1,6 @@
 yum -y install php php-mbstring
+vi /etc/php.ini 
+yum -y install mariadb-server
+vi /etc/my.cnf
 
-
+systemctl start mariadb
