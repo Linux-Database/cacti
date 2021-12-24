@@ -18,3 +18,12 @@ php-xml-7.2.24-1.amzn2.0.1.x86_64
 
 php一部ないので、serverworld基準でインストール
 yum -y install php php-mbstring
+
+php timezone変更
+vi /etc/php.ini
+
+[Date]
+; Defines the default timezone used by the date functions
+; http://php.net/date.timezone
+- ;date.timezone = 
++ date.timezone = "Asia/Tokyo"
