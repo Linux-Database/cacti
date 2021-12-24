@@ -1,9 +1,14 @@
 ## httpdバージョンチェック
+
+```
 $ httpd -v
 Server version: Apache/2.4.51 ()
 Server built:   Oct  8 2021 22:03:47
+```
 
 ## phpインストールチェック
+
+```
 rpm -qa | grep php 
 php-common-7.2.24-1.amzn2.0.1.x86_64
 php-cli-7.2.24-1.amzn2.0.1.x86_64
@@ -15,11 +20,17 @@ php-fpm-7.2.24-1.amzn2.0.1.x86_64
 php-pear-1.10.12-9.amzn2.noarch
 php-mysqlnd-7.2.24-1.amzn2.0.1.x86_64
 php-xml-7.2.24-1.amzn2.0.1.x86_64
+```
 
 ## php一部ないので、serverworld基準でインストール
+
+```
 yum -y install php php-mbstring
+```
 
 ## php timezone変更
+
+```
 vi /etc/php.ini
 
 [Date]
@@ -28,10 +39,11 @@ vi /etc/php.ini
 - ;date.timezone = 
 + date.timezone = "Asia/Tokyo"
 + 
-
+```
 
 ## mariadb-serverがいないのでインストールし、初期化
 
+```
 $ rpm -qa | grep db 
 gdb-gdbserver-8.0.1-36.amzn2.0.1.x86_64
 gdbm-1.13-6.amzn2.0.2.x86_64
@@ -47,8 +59,10 @@ mariadb-10.2.38-1.amzn2.0.1.x86_64
 libdb-utils-5.3.21-24.amzn2.0.3.x86_64
 man-db-2.6.3-9.amzn2.0.3.x86_64
 mariadb-config-10.2.38-1.amzn2.0.1.x86_64
+```
 
-> yum -y install mariadb-server
+```
+$ yum -y install mariadb-server
 
 ==================================================================================================
  Package                    Arch   Version               Repository                          Size
@@ -72,17 +86,28 @@ Installing for dependencies:
  perl-Net-Daemon            noarch 0.48-5.amzn2          amzn2-core                          51 k
  perl-PlRPC                 noarch 0.2020-14.amzn2       amzn2-core                          36 k
  
- 
-vi /etc/my.cnf 
+```
+
+
+```
+$ vi /etc/my.cnf 
  [mysqld]
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
 + character-set-server=utf8
+```
 
+## MariaDB起動&自動起動有効
+
+```
 systemctl enable --now mariadb
+```
 
 
-[root@ip-172-31-44-47 repo]#  mysql_secure_installation 
+## 初期設定
+
+```
+#  mysql_secure_installation 
 
 NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
       SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
@@ -150,9 +175,11 @@ All done!  If you've completed all of the above steps, your MariaDB
 installation should now be secure.
 
 Thanks for using MariaDB!
-
+```
 
 # インストールできたか確認
+
+```
 $ rpm -qa | grep mariadb 
 mariadb-errmsg-10.2.38-1.amzn2.0.1.x86_64
 mariadb-backup-10.2.38-1.amzn2.0.1.x86_64
@@ -166,9 +193,10 @@ mariadb-gssapi-server-10.2.38-1.amzn2.0.1.x86_64
 mariadb-tokudb-engine-10.2.38-1.amzn2.0.1.x86_64
 mariadb-server-10.2.38-1.amzn2.0.1.x86_64
 mariadb-config-10.2.38-1.amzn2.0.1.x86_64
-
+```
 
 # cacti を yum でインストールする
+```
 $ yum install cacti
 
 =======================================================================================================
@@ -217,12 +245,16 @@ Installing for dependencies:
  php-snmp             x86_64 7.2.24-1.amzn2.0.1               amzn2extra-lamp-mariadb10.2-php7.2  72 k
  pixman               x86_64 0.34.0-1.amzn2.0.2               amzn2-core                         254 k
  rrdtool              x86_64 1.4.8-9.amzn2.0.1                amzn2-core                         369 k
+```
 
-# cacti ユーザ作成 
+## cacti ユーザ作成 
+```
 $ mysql -u root -p
-$ CREATE USER 'cacti'@'localhost' IDENTIFIED BY 'Cnetuser';
+CREATE USER 'cacti'@'localhost' IDENTIFIED BY 'Cnetuser';
+```
 
-# cacti DB作成
+## cacti DB作成
+```
 $ CREATE DATABASE cacti;
 
 MariaDB [(none)]> show databases;
@@ -235,19 +267,31 @@ MariaDB [(none)]> show databases;
 | performance_schema |
 +--------------------+
 4 rows in set (0.00 sec)
+```
 
-# cacti に cacti DBの権限付与
-$ grant all on cacti.* to cacti@localhost identified by 'Cnetuser';
-$ flush privileges;
+## cacti に cacti DBの権限付与
 
-# cacti DB に データ挿入
+```
+grant all on cacti.* to cacti@localhost identified by 'Cnetuser';
+flush privileges;
+```
+
+## cacti DB に データ挿入
+
+```
 $ mysql -u cacti -p cacti < /usr/share/doc/cacti-1.2.19/cacti.sql
 (Password Cnetuser)
+```
 
-# httpd 起動 & 自動起動有効 
+## httpd 起動 & 自動起動有効 
+
+```
 $ systemctl enable httpd.service --now
+```
 
-#cacti.conf 設定変更
+## cacti.conf 設定変更
+
+```
 $ vi /etc/httpd/conf.d/cacti.conf
 
 Alias /cacti    /usr/share/cacti
@@ -265,8 +309,11 @@ Alias /cacti    /usr/share/cacti
                 Allow from localhost
         </IfModule>
 </Directory>
+```
 
-# cacti DBの設定変更
+## cacti DBの設定変更
+
+```
 $ vi /etc/cacti/db.php
 
 $database_type     = 'mysql';
@@ -281,46 +328,59 @@ $database_ssl_key  = '';
 $database_ssl_cert = '';
 $database_ssl_ca   = '';
 $database_persist  = false;
+```
 
-cron にpollerを登録
+## cron にpollerを登録
+
+```
 vi /etc/conf.d/cacti
 */5 * * * * cacti /usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1
 (既にいるのでコメント解除でOK)
+```
 
+## 設定できるとログインページが表示
 (Chrome でサイトアクセス)
-# 設定できるとログインページが表示
 ![loginpage](https://raw.githubusercontent.com/Linux-Database/image/main/login.jpg)
 
 ユーザ名   admin
 パスワード admin
 
-# ログインできるとパスワード変更ページが表示
+## ログインできるとパスワード変更ページが表示
 ![changepass](https://raw.githubusercontent.com/Linux-Database/image/main/passchenge.jpg)
 いまのパスワード (admin)
+
 新しいパスワード (Cnetuser1_)
 
-# パスワードが変更できると言語選択になるので［日本語］を選択してGPL への同意をチェック
-![setup1](https://github.com/Linux-Database/image/blob/main/setup1.jpg)
+## パスワードが変更できると言語選択になるので［日本語］を選択してGPL への同意をチェック
+![setup1](https://raw.githubusercontent.com/Linux-Database/image/main/setup1.jpg)
 
-# 次にインストール時のチェック画面が表示
+## 次にインストール時のチェック画面が表示
 各項目が警告などになっている箇所があるので、推奨値になるよう修正する。
-![setup2])(https://github.com/Linux-Database/image/blob/main/setup2.jpg)
+![setup2](https://raw.githubusercontent.com/Linux-Database/image/main/setup2.jpg)
 
-# MySQL - Timezone Support がエラーなので、修正する
-![setup_error1](https://github.com/Linux-Database/image/blob/main/setup_error1.jpg)
+## MySQL - Timezone Support がエラーなので、修正する
+![setup2_error](https://raw.githubusercontent.com/Linux-Database/image/main/setup2_error.jpg)
 
-# タイムゾーンのテーブル作成 & データ挿入
+## タイムゾーンのテーブル作成 & データ挿入
+
+```
 $ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql
 Enter password: 
 Warning: Unable to load '/usr/share/zoneinfo/leapseconds' as time zone. Skipping it.
 Warning: Unable to load '/usr/share/zoneinfo/tzdata.zi' as time zone. Skipping it.
+```
 
-# cacti にタイムゾーンテーブル権限付与
+## cacti にタイムゾーンテーブル権限付与
+
+```
 mysql -u root mysql
 GRANT SELECT ON mysql.time_zone_name TO cacti@localhost;
 flush privileges;
+```
 
-# /etc/php.ini を推奨値に設定変更
+## /etc/php.ini を推奨値に設定変変更
+
+```
 ; Maximum amount of memory a script may consume (128MB)
 ; http://php.net/memory-limit
 - memory_limit = 128M
@@ -331,8 +391,11 @@ flush privileges;
 ; Note: This directive is hardcoded to 0 for the CLI SAPI
 - max_execution_time = 30
 + max_execution_time = 60
+```
 
-# /etc/my.cnf を推奨値に設定変更
+## /etc/my.cnf を推奨値に設定変更
+
+```
 $ vi /etc/my.cnf
 
 [mysqld]
@@ -356,9 +419,13 @@ character-set-server=utf8
 + innodb_buffer_pool_instances=11
 + innodb_io_capacity=5000
 + innodb_io_capacity_max=10000
+```
 
-DB再起動
+## DB再起動
+
+```
 $ systemctl restart mariadb
+```
 
 ![setup2_ok](https://raw.githubusercontent.com/Linux-Database/image/main/setup2_ok.jpg)
 ページを更新してこのようになればOK
