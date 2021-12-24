@@ -1,9 +1,9 @@
-httpdバージョンチェック
+## httpdバージョンチェック
 $ httpd -v
 Server version: Apache/2.4.51 ()
 Server built:   Oct  8 2021 22:03:47
 
-phpインストールチェック
+## phpインストールチェック
 rpm -qa | grep php 
 php-common-7.2.24-1.amzn2.0.1.x86_64
 php-cli-7.2.24-1.amzn2.0.1.x86_64
@@ -16,10 +16,10 @@ php-pear-1.10.12-9.amzn2.noarch
 php-mysqlnd-7.2.24-1.amzn2.0.1.x86_64
 php-xml-7.2.24-1.amzn2.0.1.x86_64
 
-php一部ないので、serverworld基準でインストール
+## php一部ないので、serverworld基準でインストール
 yum -y install php php-mbstring
 
-php timezone変更
+## php timezone変更
 vi /etc/php.ini
 
 [Date]
@@ -28,6 +28,9 @@ vi /etc/php.ini
 - ;date.timezone = 
 + date.timezone = "Asia/Tokyo"
 + 
+
+
+## mariadb-serverがいないのでインストールし、初期化
 
 $ rpm -qa | grep db 
 gdb-gdbserver-8.0.1-36.amzn2.0.1.x86_64
@@ -45,8 +48,7 @@ libdb-utils-5.3.21-24.amzn2.0.3.x86_64
 man-db-2.6.3-9.amzn2.0.3.x86_64
 mariadb-config-10.2.38-1.amzn2.0.1.x86_64
 
-mariadb-serverがいないのでインストールし、初期化
-yum -y install mariadb-server
+> yum -y install mariadb-server
 
 ==================================================================================================
  Package                    Arch   Version               Repository                          Size
