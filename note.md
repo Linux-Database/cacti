@@ -333,7 +333,7 @@ $database_persist  = false;
 ## cron にpollerを登録
 
 ```
-vi /etc/conf.d/cacti
+vi /etc/cron.d/cacti
 */5 * * * * cacti /usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1
 (既にいるのでコメント解除でOK)
 ```
@@ -374,7 +374,7 @@ Warning: Unable to load '/usr/share/zoneinfo/tzdata.zi' as time zone. Skipping i
 ## cacti にタイムゾーンテーブル権限付与
 
 ```
-mysql -u root mysql
+mysql -u root -p mysql
 GRANT SELECT ON mysql.time_zone_name TO cacti@localhost;
 flush privileges;
 ```
@@ -382,6 +382,8 @@ flush privileges;
 ## /etc/php.ini を推奨値に設定変変更
 
 ```
+vi /etc/php.ini
+
 ; Maximum amount of memory a script may consume (128MB)
 ; http://php.net/memory-limit
 - memory_limit = 128M
