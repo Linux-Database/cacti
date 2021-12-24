@@ -79,7 +79,7 @@ vi /etc/my.cnf
 symbolic-links=0
 + character-set-server=utf8
 
-systemctl start mariadb
+systemctl enable --now mariadb
 
 
 [root@ip-172-31-44-47 repo]#  mysql_secure_installation 
@@ -152,6 +152,251 @@ installation should now be secure.
 Thanks for using MariaDB!
 
 
-
+# インストールできたか確認
 $ rpm -qa | grep mariadb 
+mariadb-errmsg-10.2.38-1.amzn2.0.1.x86_64
+mariadb-backup-10.2.38-1.amzn2.0.1.x86_64
+mariadb-libs-10.2.38-1.amzn2.0.1.x86_64
+mariadb-common-10.2.38-1.amzn2.0.1.x86_64
+mariadb-10.2.38-1.amzn2.0.1.x86_64
+mariadb-rocksdb-engine-10.2.38-1.amzn2.0.1.x86_64
+mariadb-cracklib-password-check-10.2.38-1.amzn2.0.1.x86_64
+mariadb-server-utils-10.2.38-1.amzn2.0.1.x86_64
+mariadb-gssapi-server-10.2.38-1.amzn2.0.1.x86_64
+mariadb-tokudb-engine-10.2.38-1.amzn2.0.1.x86_64
 mariadb-server-10.2.38-1.amzn2.0.1.x86_64
+mariadb-config-10.2.38-1.amzn2.0.1.x86_64
+
+
+# cacti を yum でインストールする
+$ yum install cacti
+
+=======================================================================================================
+ Package              Arch   Version                          Repository                          Size
+=======================================================================================================
+Installing:
+ cacti                noarch 1.2.19-1.el7                     epel                                31 M
+Installing for dependencies:
+ cairo                x86_64 1.15.12-4.amzn2                  amzn2-core                         732 k
+ dejavu-sans-mono-fonts
+                      noarch 2.33-6.amzn2                     amzn2-core                         433 k
+ fribidi              x86_64 1.0.2-1.amzn2.1                  amzn2-core                          79 k
+ graphite2            x86_64 1.3.10-1.amzn2.0.2               amzn2-core                         115 k
+ harfbuzz             x86_64 1.7.5-2.amzn2                    amzn2-core                         279 k
+ libX11               x86_64 1.6.7-3.amzn2.0.2                amzn2-core                         606 k
+ libX11-common        noarch 1.6.7-3.amzn2.0.2                amzn2-core                         165 k
+ libXau               x86_64 1.0.8-2.1.amzn2.0.2              amzn2-core                          29 k
+ libXdamage           x86_64 1.1.4-4.1.amzn2.0.2              amzn2-core                          20 k
+ libXext              x86_64 1.3.3-3.amzn2.0.2                amzn2-core                          39 k
+ libXfixes            x86_64 5.0.3-1.amzn2.0.2                amzn2-core                          18 k
+ libXft               x86_64 2.3.2-2.amzn2.0.2                amzn2-core                          60 k
+ libXpm               x86_64 3.5.12-1.amzn2.0.2               amzn2-core                          57 k
+ libXrender           x86_64 0.9.10-1.amzn2.0.2               amzn2-core                          26 k
+ libXxf86vm           x86_64 1.1.4-1.amzn2.0.2                amzn2-core                          17 k
+ libglvnd             x86_64 1:1.0.1-0.1.git5baa1e5.amzn2.0.1 amzn2-core                          89 k
+ libglvnd-egl         x86_64 1:1.0.1-0.1.git5baa1e5.amzn2.0.1 amzn2-core                          43 k
+ libglvnd-glx         x86_64 1:1.0.1-0.1.git5baa1e5.amzn2.0.1 amzn2-core                         125 k
+ libthai              x86_64 0.1.14-9.amzn2.0.2               amzn2-core                         187 k
+ libwayland-client    x86_64 1.17.0-1.amzn2                   amzn2-core                          34 k
+ libwayland-server    x86_64 1.17.0-1.amzn2                   amzn2-core                          40 k
+ libxcb               x86_64 1.12-1.amzn2.0.2                 amzn2-core                         216 k
+ libxshmfence         x86_64 1.2-1.amzn2.0.2                  amzn2-core                         7.2 k
+ mesa-libEGL          x86_64 18.3.4-5.amzn2.0.1               amzn2-core                         108 k
+ mesa-libGL           x86_64 18.3.4-5.amzn2.0.1               amzn2-core                         162 k
+ mesa-libgbm          x86_64 18.3.4-5.amzn2.0.1               amzn2-core                          38 k
+ mesa-libglapi        x86_64 18.3.4-5.amzn2.0.1               amzn2-core                          45 k
+ net-snmp             x86_64 1:5.7.2-49.amzn2.1               amzn2-core                         325 k
+ net-snmp-agent-libs  x86_64 1:5.7.2-49.amzn2.1               amzn2-core                         701 k
+ net-snmp-libs        x86_64 1:5.7.2-49.amzn2.1               amzn2-core                         748 k
+ net-snmp-utils       x86_64 1:5.7.2-49.amzn2.1               amzn2-core                         200 k
+ pango                x86_64 1.42.4-4.amzn2                   amzn2-core                         280 k
+ php-gd               x86_64 7.2.24-1.amzn2.0.1               amzn2extra-lamp-mariadb10.2-php7.2 179 k
+ php-gmp              x86_64 7.2.24-1.amzn2.0.1               amzn2extra-lamp-mariadb10.2-php7.2  75 k
+ php-intl             x86_64 7.2.24-1.amzn2.0.1               amzn2extra-lamp-mariadb10.2-php7.2 223 k
+ php-ldap             x86_64 7.2.24-1.amzn2.0.1               amzn2extra-lamp-mariadb10.2-php7.2  78 k
+ php-snmp             x86_64 7.2.24-1.amzn2.0.1               amzn2extra-lamp-mariadb10.2-php7.2  72 k
+ pixman               x86_64 0.34.0-1.amzn2.0.2               amzn2-core                         254 k
+ rrdtool              x86_64 1.4.8-9.amzn2.0.1                amzn2-core                         369 k
+
+# cacti ユーザ作成 
+$ mysql -u root -p
+$ CREATE USER 'cacti'@'localhost' IDENTIFIED BY 'Cnetuser';
+
+# cacti DB作成
+$ CREATE DATABASE cacti;
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cacti              |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.00 sec)
+
+# cacti に cacti DBの権限付与
+$ grant all on cacti.* to cacti@localhost identified by 'Cnetuser';
+$ flush privileges;
+
+# cacti DB に データ挿入
+$ mysql -u cacti -p cacti < /usr/share/doc/cacti-1.2.19/cacti.sql
+(Password Cnetuser)
+
+# httpd 起動 & 自動起動有効 
+$ systemctl enable httpd.service --now
+
+#cacti.conf 設定変更
+$ vi /etc/httpd/conf.d/cacti.conf
+
+Alias /cacti    /usr/share/cacti
+
+<Directory /usr/share/cacti/>
+        <IfModule mod_authz_core.c>
+                # httpd 2.4
+-                Require host localhost
++                Require all grented
+        </IfModule>
+        <IfModule !mod_authz_core.c>
+                # httpd 2.2
+                Order deny,allow
+                Deny from all
+                Allow from localhost
+        </IfModule>
+</Directory>
+
+# cacti DBの設定変更
+$ vi /etc/cacti/db.php
+
+$database_type     = 'mysql';
+$database_default  = 'cacti';
+$database_hostname = 'localhost';
+$database_username = 'cacti';
+$database_password = 'Cnetuser';
+$database_port     = '3306';
+$database_retries  = 5;
+$database_ssl      = false;
+$database_ssl_key  = '';
+$database_ssl_cert = '';
+$database_ssl_ca   = '';
+$database_persist  = false;
+
+cron にpollerを登録
+vi /etc/conf.d/cacti
+*/5 * * * * cacti /usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1
+(既にいるのでコメント解除でOK)
+
+(Chrome でサイトアクセス)
+# 設定できるとログインページが表示
+![loginpage](https://raw.githubusercontent.com/Linux-Database/image/main/login.jpg)
+
+ユーザ名   admin
+パスワード admin
+
+# ログインできるとパスワード変更ページが表示
+![changepass](https://raw.githubusercontent.com/Linux-Database/image/main/passchenge.jpg)
+いまのパスワード (admin)
+新しいパスワード (Cnetuser1_)
+
+# パスワードが変更できると言語選択になるので［日本語］を選択してGPL への同意をチェック
+![setup1](https://github.com/Linux-Database/image/blob/main/setup1.jpg)
+
+# 次にインストール時のチェック画面が表示
+各項目が警告などになっている箇所があるので、推奨値になるよう修正する。
+![setup2])(https://github.com/Linux-Database/image/blob/main/setup2.jpg)
+
+# MySQL - Timezone Support がエラーなので、修正する
+![setup_error1](https://github.com/Linux-Database/image/blob/main/setup_error1.jpg)
+
+# タイムゾーンのテーブル作成 & データ挿入
+$ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql
+Enter password: 
+Warning: Unable to load '/usr/share/zoneinfo/leapseconds' as time zone. Skipping it.
+Warning: Unable to load '/usr/share/zoneinfo/tzdata.zi' as time zone. Skipping it.
+
+# cacti にタイムゾーンテーブル権限付与
+mysql -u root mysql
+GRANT SELECT ON mysql.time_zone_name TO cacti@localhost;
+flush privileges;
+
+# /etc/php.ini を推奨値に設定変更
+; Maximum amount of memory a script may consume (128MB)
+; http://php.net/memory-limit
+- memory_limit = 128M
++ memory_limit = 400M
+
+; Maximum execution time of each script, in seconds
+; http://php.net/max-execution-time
+; Note: This directive is hardcoded to 0 for the CLI SAPI
+- max_execution_time = 30
++ max_execution_time = 60
+
+# /etc/my.cnf を推奨値に設定変更
+$ vi /etc/my.cnf
+
+[mysqld]
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+character-set-server=utf8
+
++ collation_server=utf8mb4_unicode_ci
++ character_set_server=utf8mb4
++ character_set_client=utf8mb4
++ max_heap_table_size=512M
++ max_allowed_packet=16777216
++ tmp_table_size=128M
++ join_buffer_size=128M
++ innodb_file_per_table=ON
++ innodb_buffer_pool_size=1024M
++ innodb_doublewrite=OFF
++ innodb_flush_log_at_timeout=3
++ innodb_read_io_threads=32
++ innodb_write_io_threads=16
++ innodb_buffer_pool_instances=11
++ innodb_io_capacity=5000
++ innodb_io_capacity_max=10000
+
+DB再起動
+$ systemctl restart mariadb
+
+![setup2_ok](https://raw.githubusercontent.com/Linux-Database/image/main/setup2_ok.jpg)
+ページを更新してこのようになればOK
+
+![setup3](https://raw.githubusercontent.com/Linux-Database/image/main/setup3.jpg)
+このまま次へ
+
+![setup4](https://raw.githubusercontent.com/Linux-Database/image/main/setup4.jpg)
+今回は全てOKだった。何か警告が出ていれば修正する。
+
+![setup5](https://raw.githubusercontent.com/Linux-Database/image/main/setup5.jpg)
+今回はバイナリパスは全てOKだった。何かエラーが出ていればインストールする。
+
+![setup6](https://raw.githubusercontent.com/Linux-Database/image/main/setup6.jog)
+チェックを付けて次へ
+
+![setup7](https://raw.githubusercontent.com/Linux-Database/image/main/setup7.jpg)
+今回は、検証のために1分ごとに情報を取得するように設定した。
+ネットワークは環境に合わせて 172.16.32.0/20 に設定した。
+
+![setup8](https://raw.githubusercontent.com/Linux-Database/image/main/setup8.jpg)
+テンプテートの設定。今回は全てチェックマークに入れた。
+
+![setup9](https://raw.githubusercontent.com/Linux-Database/image/main/setup9.jpg)
+DBに関する画面
+
+![setup9_error](https://raw.githubusercontent.com/Linux-Database/image/main/setup9_error.jpg)
+DBの文字コードを変更する
+
+$ mysql -u root -p
+ALTER DATABASE cacti CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+![setup9_ok](https://raw.githubusercontent.com/Linux-Database/image/main/setup9_ok.jpg)
+このようになればOK
+
+![setup10](https://raw.githubusercontent.com/Linux-Database/image/main/setup10)
+チェックマークを入れてインストールボタンを押すとインストールが開始される
+
+![setup11](https://raw.githubusercontent.com/Linux-Database/image/main/setup11.jpg)
+インストールできた様子　始めるを押すとコンソールページに移動される。
+
