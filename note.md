@@ -340,6 +340,7 @@ vi /etc/conf.d/cacti
 
 ## 設定できるとログインページが表示
 (Chrome でサイトアクセス)
+
 ![loginpage](https://raw.githubusercontent.com/Linux-Database/image/main/login.jpg)
 
 ユーザ名   admin
@@ -347,8 +348,8 @@ vi /etc/conf.d/cacti
 
 ## ログインできるとパスワード変更ページが表示
 ![changepass](https://raw.githubusercontent.com/Linux-Database/image/main/passchenge.jpg)
-いまのパスワード (admin)
 
+いまのパスワード (admin)
 新しいパスワード (Cnetuser1_)
 
 ## パスワードが変更できると言語選択になるので［日本語］を選択してGPL への同意をチェック
@@ -439,11 +440,12 @@ $ systemctl restart mariadb
 ![setup5](https://raw.githubusercontent.com/Linux-Database/image/main/setup5.jpg)
 今回はバイナリパスは全てOKだった。何かエラーが出ていればインストールする。
 
-![setup6](https://raw.githubusercontent.com/Linux-Database/image/main/setup6.jog)
+![setup6](https://raw.githubusercontent.com/Linux-Database/image/main/setup6.jpg)
 チェックを付けて次へ
 
 ![setup7](https://raw.githubusercontent.com/Linux-Database/image/main/setup7.jpg)
 今回は、検証のために1分ごとに情報を取得するように設定した。
+
 ネットワークは環境に合わせて 172.16.32.0/20 に設定した。
 
 ![setup8](https://raw.githubusercontent.com/Linux-Database/image/main/setup8.jpg)
@@ -455,13 +457,15 @@ DBに関する画面
 ![setup9_error](https://raw.githubusercontent.com/Linux-Database/image/main/setup9_error.jpg)
 DBの文字コードを変更する
 
+```
 $ mysql -u root -p
 ALTER DATABASE cacti CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 
 ![setup9_ok](https://raw.githubusercontent.com/Linux-Database/image/main/setup9_ok.jpg)
 このようになればOK
 
-![setup10](https://raw.githubusercontent.com/Linux-Database/image/main/setup10)
+![setup10](https://raw.githubusercontent.com/Linux-Database/image/main/setup10.jpg)
 チェックマークを入れてインストールボタンを押すとインストールが開始される
 
 ![setup11](https://raw.githubusercontent.com/Linux-Database/image/main/setup11.jpg)
