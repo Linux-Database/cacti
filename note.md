@@ -222,11 +222,23 @@ $ vi /etc/snmp/snmpd.conf
 #       name           incl/excl     subtree         mask(optional)
 view    systemview    included   .1.3.6.1.2.1.1
 view    systemview    included   .1.3.6.1.2.1.25.1.1
++ view    systemview    included   .1.3.6.1.
 + view    all_view      included   .1
 
 - access  notConfigGroup ""      any       noauth    exact  systemview none none
 + access  mynetwork_group ""      any       noauth    exact  systemview none none
 + access  mynetwork_group ""      any       noauth    exact  all_view none none
+
+# disk PATH [MIN=100000]
+#
+# PATH:  mount path to the disk in question.
+# MIN:   Disks with space below this value will have the Mib's errorFlag set.
+#        Default value = 100000.
+
+# Check the / partition and make sure it contains at least 10 megs.
+
+- #disk / 10000
++ disk / 10000
 
 ```
 
@@ -234,6 +246,7 @@ view    systemview    included   .1.3.6.1.2.1.25.1.1
 
 ```
 $ systemctl restart snmpd
+$ systemctl enable snmpd
 ```
 
 ## snmpwalk コマンドで動作確認
@@ -279,7 +292,10 @@ SNMPv2-MIB::sysORUpTime.8 = Timeticks: (4) 0:00:00.04
 SNMPv2-MIB::sysORUpTime.9 = Timeticks: (4) 0:00:00.04
 SNMPv2-MIB::sysORUpTime.10 = Timeticks: (4) 0:00:00.04
 HOST-RESOURCES-MIB::hrSystemUptime.0 = Timeticks: (2699433) 7:29:54.33
-HOST-RESOURCES-MIB::hrSystemUptime.0 = No more variables left in this MIB View (It is past the end of the MIB tree)
+HOST-RESOURCES-MIB::hrSystemUptime.0 = No more variables left in this MIB View (It is pastthe end of the MIB tree)
+・
+・
+・
 ```
 
 ## cacti を yum でインストールする
@@ -443,14 +459,14 @@ vi /etc/cron.d/cacti
 新しいパスワード (Cnetuser1_)
 
 ## パスワードが変更できると言語選択になるので［日本語］を選択してGPL への同意をチェック
-![setup1](https://raw.githubusercontent.com/Linux-Database/image/main/setup1.jpg)
+![setup1](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup1.jpg)
 
 ## 次にインストール時のチェック画面が表示
 各項目が警告などになっている箇所があるので、推奨値になるよう修正する。
-![setup2](https://raw.githubusercontent.com/Linux-Database/image/main/setup2.jpg)
+![setup2](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup2.jpg)
 
 ## MySQL - Timezone Support がエラーなので、修正する
-![setup2_error](https://raw.githubusercontent.com/Linux-Database/image/main/setup2_error.jpg)
+![setup2_error](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup2_error.jpg)
 
 ## タイムゾーンのテーブル作成 & データ挿入
 
@@ -520,33 +536,33 @@ character-set-server=utf8
 $ systemctl restart mariadb
 ```
 
-![setup2_ok](https://raw.githubusercontent.com/Linux-Database/image/main/setup2_ok.jpg)
+![setup2_ok](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup2_ok.jpg)
 ページを更新してこのようになればOK
 
-![setup3](https://raw.githubusercontent.com/Linux-Database/image/main/setup3.jpg)
+![setup3](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup3.jpg)
 このまま次へ
 
-![setup4](https://raw.githubusercontent.com/Linux-Database/image/main/setup4.jpg)
+![setup4](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup4.jpg)
 今回は全てOKだった。何か警告が出ていれば修正する。
 
-![setup5](https://raw.githubusercontent.com/Linux-Database/image/main/setup5.jpg)
+![setup5](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup5.jpg)
 今回はバイナリパスは全てOKだった。何かエラーが出ていればインストールする。
 
-![setup6](https://raw.githubusercontent.com/Linux-Database/image/main/setup6.jpg)
+![setup6](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup6.jpg)
 チェックを付けて次へ
 
-![setup7](https://raw.githubusercontent.com/Linux-Database/image/main/setup7.jpg)
+![setup7](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup7.jpg)
 今回は、検証のために1分ごとに情報を取得するように設定した。
 
 ネットワークは環境に合わせて 172.16.32.0/20 に設定した。
 
-![setup8](https://raw.githubusercontent.com/Linux-Database/image/main/setup8.jpg)
+![setup8](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup8.jpg)
 テンプテートの設定。今回は全てチェックマークに入れた。
 
-![setup9](https://raw.githubusercontent.com/Linux-Database/image/main/setup9.jpg)
+![setup9](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup9.jpg)
 DBに関する画面
 
-![setup9_error](https://raw.githubusercontent.com/Linux-Database/image/main/setup9_error.jpg)
+![setup9_error](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup9_error.jpg)
 DBの文字コードを変更する
 
 ```
@@ -554,13 +570,13 @@ $ mysql -u root -p
 ALTER DATABASE cacti CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-![setup9_ok](https://raw.githubusercontent.com/Linux-Database/image/main/setup9_ok.jpg)
+![setup9_ok](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup9_ok.jpg)
 このようになればOK
 
-![setup10](https://raw.githubusercontent.com/Linux-Database/image/main/setup10.jpg)
+![setup10](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup10.jpg)
 チェックマークを入れてインストールボタンを押すとインストールが開始される
 
-![setup11](https://raw.githubusercontent.com/Linux-Database/image/main/setup11.jpg)
+![setup11](https://raw.githubusercontent.com/Linux-Database/image/main/setup/setup11.jpg)
 インストールできた様子　始めるを押すとコンソールページに移動できる。
 
 ![toppage](https://raw.githubusercontent.com/Linux-Database/image/main/toppage.jpg)
@@ -569,7 +585,61 @@ ALTER DATABASE cacti CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ![graph](https://raw.githubusercontent.com/Linux-Database/image/main/graph.jpg)
 グラフページを表示すると、このようにグラフが表示される。
 
+## localhost の snmp 設定
+![localhost_snmp_setup](https://raw.githubusercontent.com/Linux-Database/image/main/setup/localhost_snmp_setup.jpg)
 
+コンソール > マネジメント > デバイス > Local Linux Machine 
+SNMP Options の SNMP Version を "Not In Use" から "Version 2"に変更することで、SNMPで情報を取得できるようになる。
+コミュニティ名をそれぞれ naka kaku に設定した。
 
+## ディスク容量、ネットワークトラヒック量をグラフで表示
 
-# 今回は、トラヒック量を表示できるようにする。
+### ディスク容量
+
+![snmp_graph1](https://raw.githubusercontent.com/Linux-Database/image/main/graph/snmp_disk1.jpg)
+
+ディスク容量を見るには、SNMPで取得したデータをクエリーとして追加する必要がある。
+マネジメント＞デバイス＞連想データ照会＞Add Data Query で Net-SNMP - Get Monitored Partitions を選択して追加ボタンをクリックする。
+
+![snmp_disk2](https://raw.githubusercontent.com/Linux-Database/image/main/graph/snmp_disk2.jpg)
+
+次に、対象のディスクデバイスを選択する。
+作成＞新規グラフ＞デバイスを[Local Linux Machine]に選択
+Data Query [Unix - Get Monitored Partitions] の /dev/xvda1 を選択して作成をクリック。
+
+![snmp_graph1](https://raw.githubusercontent.com/Linux-Database/image/main/graph/snmp_graph1.jpg)
+グラフに移動すると、ディスク容量を見ることができる。
+
+### ネットワークトラヒック量
+
+トラヒック量を見るには、SNMPで取得したデータをクエリーとして追加する必要がある。
+マネジメント＞デバイス＞連想データ照会＞Add Data Query で SNMP - Interface Statistics を選択して追加ボタンをクリックする。
+
+![snmp_graph2](https://raw.githubusercontent.com/Linux-Database/image/main/graph/snmp_graph2.jpg)
+グラフに移動すると、トラヒック容量を見ることができる。
+
+## 対向ホスト追加方法
+今回は、対向の状態を監視できるように設定した。
+
+### 対向ホスト追加
+今回は、naka から kaku を追加する方法を説明する。
+
+![hostadd1](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd1.jpg)
+コンソール＞作成＞New Device でホストを追加することができる。
+名前、ホスト名、デバイステンプレート、SNMPバージョン、コミュニティ名を設定したら作成をクリック
+
+![hostadd1_ok](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd1_ok.jpg)
+作成出来ると、このような出力がされる。
+
+![hostadd2](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd2.jpg)
+コンソール＞マネジメント＞デバイス　に移動すると、kaku が追加できていることが分かる。
+
+![hostadd3](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd3.jpg)
+ディスク容量とネットワークトラヒック量をグラフで表示するために、
+連想データ照会＞Add Data Query > Net-SNMP - Get Monitored Partitions と SNMP - Interface Statistics を追加する。
+
+次に、コンソール＞作成＞新規グラフで、
+Data Query [SNMP - Get Mounted Partitions] の / と
+Data Query [SNMP - Interface Statistics] の eth 0 に チェックを入れて作成をクリック。
+
+kaku をクリックすると、
