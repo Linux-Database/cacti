@@ -638,8 +638,10 @@ Data Query [Unix - Get Monitored Partitions] の /dev/xvda1 を選択して作�
 ディスク容量とネットワークトラヒック量をグラフで表示するために、
 連想データ照会＞Add Data Query > Net-SNMP - Get Monitored Partitions と SNMP - Interface Statistics を追加する。
 
+![hostad4](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostad4.jpg)
 次に、コンソール＞作成＞新規グラフで、
 Data Query [SNMP - Get Mounted Partitions] の / と
 Data Query [SNMP - Interface Statistics] の eth 0 に チェックを入れて作成をクリック。
 
-kaku をクリックすると、
+![hostadd5](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd5.jpg)
+グラフ＞Default Tree > local > Machine > kaku をクリックすると、ディスク容量とネットワークトラヒック量を見ることができた。
