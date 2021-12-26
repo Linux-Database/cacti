@@ -612,7 +612,7 @@ Data Query [Unix - Get Monitored Partitions] の /dev/xvda1 を選択して作�
 
 ### ネットワークトラヒック量
 
-![snmp_network1](https://raw.githubusercontent.com/Linux-Database/image/main/snmp_network.jpg)
+![snmp_network1](https://raw.githubusercontent.com/Linux-Database/image/main/snmp_network1.jpg)
 トラヒック量を見るには、SNMPで取得したデータをクエリーとして追加する必要がある。
 マネジメント＞デバイス＞連想データ照会＞Add Data Query で SNMP - Interface Statistics を選択して追加ボタンをクリックする。
 
