@@ -625,25 +625,25 @@ Data Query [Unix - Get Monitored Partitions] の /dev/xvda1 を選択して作�
 ### 対向ホスト追加
 今回は、naka から kaku を追加する方法を説明する。
 
-![hostadd1](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd1.jpg)
-コンソール＞作成＞New Device でホストを追加することができる。
-名前、ホスト名、デバイステンプレート、SNMPバージョン、コミュニティ名を設定したら作成をクリック
+![hostadd1](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd1.jpg)  
+コンソール＞作成＞New Device でホストを追加することができる。  
+名前、ホスト名、デバイステンプレート、SNMPバージョン、コミュニティ名を設定したら作成をクリック  
 
-![hostadd1_ok](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd1_ok.jpg)
-作成出来ると、このような出力がされる。
+![hostadd1_ok](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd1_ok.jpg)  
+作成出来ると、このような出力がされる。  
 
-![hostadd2](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd2.jpg)
-コンソール＞マネジメント＞デバイス　に移動すると、kaku が追加できていることが分かる。
+![hostadd2](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd2.jpg)    
+コンソール＞マネジメント＞デバイス　に移動すると、kaku が追加できていることが分かる。  
 
-![hostadd3](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd3.jpg)
-ディスク容量とネットワークトラヒック量をグラフで表示するために、
-kaku をクリック。
-連想データ照会＞Add Data Query > Net-SNMP - Get Monitored Partitions と SNMP - Interface Statistics を追加する。
+![hostadd3](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd3.jpg)  
+ディスク容量とネットワークトラヒック量をグラフで表示するために、  
+kaku をクリック。  
+連想データ照会＞Add Data Query > Net-SNMP - Get Monitored Partitions と SNMP - Interface Statistics を追加する。  
 
-![hostad4](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostad4.jpg)
-次に、コンソール＞作成＞新規グラフで、
-Data Query [SNMP - Get Mounted Partitions] の / と
-Data Query [SNMP - Interface Statistics] の eth 0 に チェックを入れて作成をクリック。
+![hostad4](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd4.jpg)  
+次に、コンソール＞作成＞新規グラフで、  
+Data Query [SNMP - Get Mounted Partitions] の / と  
+Data Query [SNMP - Interface Statistics] の eth 0 に チェックを入れて作成をクリック。  
 
-![hostadd5](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd5.jpg)
-グラフ＞Default Tree > local > Machine > kaku をクリックすると、ディスク容量とネットワークトラヒック量を見ることができた。
+![hostadd5](https://raw.githubusercontent.com/Linux-Database/image/main/hostadd/hostadd5.jpg)  
+グラフ＞Default Tree > local > Machine > kaku をクリックすると、ディスク容量とネットワークトラヒック量を見ることができた。  
